@@ -1,0 +1,119 @@
+@using PracticeMVC.Models.DTOs
+@model PracticeMVC.Models.DTOs.StudentModel
+
+@{
+    ViewData["Title"] = "Create";
+    var subjects = ViewData["Subjects"] as Dictionary<string, int>;
+    var genders = ViewData["Genders"] as Dictionary<string, int>;
+    var messageError = ViewData["MessageError"] as string;
+}
+
+@if (!string.IsNullOrEmpty(messageError))
+{
+    <span class="text-danger">@messageError</span>
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="@nameof(StudentModel.NRIC)">NRIC</label>
+                <input type="text" class="form-control"
+                       id="@nameof(StudentModel.NRIC)"
+                       placeholder="Enter NRIC"
+                       asp-for="NRIC">
+                <span asp-validation-for="NRIC" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text"
+                       class="form-control"
+                       id="name"
+                       placeholder="Enter Name"
+                       asp-for="Name">
+                <span asp-validation-for="NRIC" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="@nameof(StudentModel.BirthDay)">Birthday</label>
+                <input type="date"
+                       class="form-control"
+                       id="@nameof(StudentModel.BirthDay)"
+                       asp-for="BirthDay">
+                <span asp-validation-for="BirthDay" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="@nameof(StudentModel.AvailableDate)">Available Date</label>
+                <input type="date"
+                       class="form-control"
+                       id="@nameof(StudentModel.AvailableDate)"
+                       asp-for="AvailableDate">
+            </div>
+
+            @if (genders != null)
+            {
+                foreach (var gender in genders)
+                {
+                    if (gender.Value == 1)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"
+                                   name="@nameof(StudentModel.GenderEnum)"
+                                   id="@gender.Key"
+                                   value="@gender.Value"
+                                   asp-for="GenderEnum"
+                                   checked="checked">
+                            <label class="form-check-label" for="@gender.Key">
+                                @gender.Key
+                            </label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"
+                                   name="@nameof(StudentModel.GenderEnum)"
+                                   id="@gender.Key"
+                                   value="@gender.Value"
+                                   asp-for="GenderEnum">
+                            <label class="form-check-label" for="@gender.Key">
+                                @gender.Key
+                            </label>
+                        </div>
+                    }
+                }
+            }
+
+            @if (subjects != null && subjects.Any())
+            {
+                foreach (var subject in subjects)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               value="@subject.Value"
+                               id="@subject.Key"
+                               name="@nameof(StudentModel.SubjectValues)">
+                        <label class="form-check-label" for="@subject.Key">
+                            @subject.Key
+                        </label>
+                    </div>
+                }
+            }
+
+            <div class="form-group">
+                <div class="float-left">
+                    <a asp-action="Index" class="btn btn-light">Back</a>
+                </div>
+                <div class="float-right">
+                    <input type="reset" value="Reset" class="btn btn-secondary">
+                    &nbsp;
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

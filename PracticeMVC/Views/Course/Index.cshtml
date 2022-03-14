@@ -1,0 +1,49 @@
+@model IEnumerable<PracticeMVC.Models.DTOs.StudentListModel>
+@{
+    var searchParams = ViewData["searchParams"];
+}
+<a class="btn btn-primary" asp-action="Create">Create</a>
+<hr>
+<div class="row">
+    <div class="col-sm-12">
+        <form asp-action="Index">
+            <input type="text" name="searchParams" value="@searchParams">
+            <input type="submit" value="Filter">
+        </form>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">SN</th>
+        <th scope="col">NRIC</th>
+        <th scope="col">Name</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Age</th>
+        <th scope="col">NO Of.Subject</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SN</td>
+                <td><a asp-action="Edit" asp-route-id="@item.Id" >@item.NRIC</a></td>
+                <td>@item.Name</td>
+                <td>@item.Gender</td>
+                <td>@item.Age</td>
+                <td>@item.Subjects</td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="6">Nothing to display</td>
+        </tr>
+    }
+    </tbody>
+</table>
